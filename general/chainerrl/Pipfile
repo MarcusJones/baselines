@@ -10,6 +10,7 @@ chainerrl = ">=0.7.0"
 minerl = "*"
 pydot = "*"
 matplotlib = "*"
+cupy = "*"
 
 [requires]
 python_version = "3.6"

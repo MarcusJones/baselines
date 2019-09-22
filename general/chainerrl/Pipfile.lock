@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "79657463a9cee08cf7e8b2a9bcbf3e7c461c32893cca87c4e21e6b6bc8e3911b"
+            "sha256": "38a5a5464059c7345d90f594f58ae0f7064f934c6dc3696dab6926c0eb59a868"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -132,7 +132,6 @@
             "hashes": [
                 "sha256:a6c22717c10051ce65b8fb7bddb171af705b1175e694a73be956990f6089d8b1"
             ],
-            "markers": "sys_platform != 'win32' and sys_platform != 'cygwin'",
             "version": "==1.0"
         },
         "gym": {
@@ -256,11 +255,8 @@
             "version": "==3.0.3"
         },
         "minerl": {
-            "hashes": [
-                "sha256:80b9bbdf6869cf4e3e03fd8671ef8012c65eddacb015b60c755a5bec1d9850ac"
-            ],
-            "index": "pypi",
-            "version": "==0.2.4"
+            "editable": true,
+            "path": "/home/batman/minerl/minerl-0.2.4"
         },
         "numpy": {
             "hashes": [

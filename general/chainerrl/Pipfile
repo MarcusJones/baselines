@@ -9,9 +9,9 @@ verify_ssl = true
 pydot = "*"
 matplotlib = "*"
 cupy = "*"
-minerl = {editable = true,path = "/home/batman/minerl/minerl_forked"}
 chainerrl = {editable = true,path = "/home/batman/minerl/chainerrl_forked"}
 pysmartdl = "*"
+minerl = "*"
 
 [requires]
 python_version = "3.6"

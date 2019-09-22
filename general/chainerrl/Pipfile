@@ -6,11 +6,12 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-chainerrl = ">=0.7.0"
-minerl = "*"
 pydot = "*"
 matplotlib = "*"
 cupy = "*"
+minerl = {editable = true,path = "/home/batman/minerl/minerl_forked"}
+chainerrl = {editable = true,path = "/home/batman/minerl/chainerrl_forked"}
+pysmartdl = "*"
 
 [requires]
 python_version = "3.6"

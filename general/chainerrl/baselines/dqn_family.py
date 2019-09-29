@@ -133,7 +133,7 @@ def main():
         raise
 
 
-def wrap_env(env, test):
+def wrap_env(args, env, test):
     # wrap env: time limit...
     if isinstance(env, gym.wrappers.TimeLimit):
         logger.info('Detected `gym.wrappers.TimeLimit`! Unwrap it and re-wrap our own time limit.')
@@ -193,7 +193,7 @@ def _main(args):
     test_seed = 2 ** 31 - 1 - args.seed
 
     core_env = gym.make(args.env)
-    env = wrap_env(core_env, test=False)
+    env = wrap_env(args, core_env, test=False)
     # eval_env = gym.make(args.env)  # Can't create multiple MineRL envs
     # eval_env = wrap_env(eval_env, test=True)
     eval_env = wrap_env(core_env, test=True)

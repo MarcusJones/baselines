@@ -55,6 +55,7 @@ def main():
     parser.add_argument('--env', type=str, default='MineRLTreechop-v0',
                         choices=[
                             'MineRLTreechop-v0',
+                            'MineRLTreechopLarge-v0',
                             'MineRLNavigate-v0', 'MineRLNavigateDense-v0',
                             'MineRLNavigateExtreme-v0', 'MineRLNavigateExtremeDense-v0',
                             'MineRLObtainIronPickaxe-v0', 'MineRLObtainIronPickaxeDense-v0',

@@ -224,19 +224,24 @@ def _main(args):
     # Use the Nature paper's hyperparameters
     # opt = optimizers.RMSpropGraves(lr=args.lr, alpha=0.95, momentum=0.0, eps=1e-2)
     opt = chainer.optimizers.Adam(alpha=args.lr, eps=args.adam_eps)  # NOTE: mirrors DQN implementation in MineRL paper
+    logger.critical("Built optimizer {}".format(opt))
 
     opt.setup(q_func)
+    logger.critical("Applied Q to optimizer {}".format(opt))
 
     # calculate corresponding `steps` and `eval_interval` according to frameskip
     # = 1440 episodes if we count an episode as 6000 frames,
     # = 1080 episodes if we count an episode as 8000 frames.
     maximum_frames = 8640000
+    logger.critical("Max frames:".format(maximum_frames))
     if args.frame_skip is None:
         steps = maximum_frames
         eval_interval = 6000 * 100  # (approx.) every 100 episode (counts "1 episode = 6000 steps")
     else:
         steps = maximum_frames // args.frame_skip
         eval_interval = 6000 * 100 // args.frame_skip  # (approx.) every 100 episode (counts "1 episode = 6000 steps")
+    logger.critical("steps:".format(steps))
+    logger.critical("eval_interval:".format(eval_interval))
 
     # Select a replay buffer to use
     if args.prioritized:
@@ -246,11 +251,13 @@ def _main(args):
             args.replay_capacity, alpha=0.5, beta0=0.4, betasteps=betasteps, num_steps=args.num_step_return)
     else:
         rbuf = chainerrl.replay_buffer.ReplayBuffer(args.replay_capacity, args.num_step_return)
+    logger.critical("Replay buffer {}".format(rbuf))
 
     # build agent
     def phi(x):
         # observation -> NN input
         return np.asarray(x)
+    logger.critical("Building agent with: {}".format(args.agent))
     Agent = parse_agent(args.agent)
     agent = Agent(
         q_func, opt, rbuf, gpu=args.gpu, gamma=args.gamma, explorer=explorer, replay_start_size=args.replay_start_size,
@@ -258,6 +265,9 @@ def _main(args):
         batch_accumulator=args.batch_accumulator, phi=phi)
     if args.load:
         agent.load(args.load)
+    logger.critical("Agent built {}".format(agent))
+
+    logger.critical("***** Prepared all components for experiment. Starting.".format(agent))
 
     # experiment
     if args.demo:

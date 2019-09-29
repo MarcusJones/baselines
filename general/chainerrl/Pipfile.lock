@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "38a5a5464059c7345d90f594f58ae0f7064f934c6dc3696dab6926c0eb59a868"
+            "sha256": "793dde572dcc5a9d5ceb387092e086345d7e843d03568652bfd3ec36a92b8b08"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,10 @@
         ]
     },
     "default": {
+        "4ba2cb9": {
+            "editable": true,
+            "path": "/home/batman/minerl/minerl_fork2"
+        },
         "backcall": {
             "hashes": [
                 "sha256:38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4",
@@ -39,9 +43,9 @@
         },
         "chainer": {
             "hashes": [
-                "sha256:aef20f87edc2074474bcee119a42075655e7ba96bb311c0873e11de286a26c8b"
+                "sha256:dacbcaa361cebdfbf6f212d138570333611b8f5de553093b1752c578b022a774"
             ],
-            "version": "==6.3.0"
+            "version": "==6.4.0"
         },
         "chainerrl": {
             "editable": true,
@@ -70,10 +74,10 @@
         },
         "cupy": {
             "hashes": [
-                "sha256:23bd5d553a4ba7b591c5bab18a81476f395930f4373070026420846176cc68e0"
+                "sha256:ca70ca0823323f8c91d52eb304009eaa72feb44118864c1f00d8fa288352dc88"
             ],
             "index": "pypi",
-            "version": "==6.3.0"
+            "version": "==6.4.0"
         },
         "cycler": {
             "hashes": [
@@ -256,7 +260,7 @@
         },
         "minerl": {
             "editable": true,
-            "path": "/home/batman/minerl/minerl-0.2.4"
+            "path": "/home/batman/minerl/minerl_fork2"
         },
         "numpy": {
             "hashes": [
@@ -541,10 +545,10 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:2f3eadfea5d92bc7899e75b5968410b749a054b492d5a6379c1344a1481bc2cb",
-                "sha256:9c6c593cb28f52075016307fc26b0a0f8e82bc7d1ff19aaaa959b91710a56c47"
+                "sha256:3de946ffbed6e6746608990594d08faac602528ac7015ac28d33cee6a45b7398",
+                "sha256:9a107b99a5393caf59c7aa3c1249c16e6879447533d0887f4336dde834c7be86"
             ],
-            "version": "==1.25.5"
+            "version": "==1.25.6"
         },
         "wcwidth": {
             "hashes": [

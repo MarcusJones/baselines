@@ -11,7 +11,8 @@ matplotlib = "*"
 cupy = "*"
 chainerrl = {path = "/home/batman/minerl/chainerrl_forked",editable = true}
 pysmartdl = "*"
-minerl = {path = "/home/batman/minerl/minerl-0.2.4",editable = true}
+4ba2cb9 = {path = "/home/batman/minerl/minerl_fork2",editable = true}
+minerl = {path = "/home/batman/minerl/minerl_fork2",editable = true}
 
 [requires]
 python_version = "3.6"

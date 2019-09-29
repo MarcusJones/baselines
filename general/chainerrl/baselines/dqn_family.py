@@ -134,7 +134,10 @@ def main():
 
 
 def _main(args):
+    # TODO:
+    logger.critical("Start".format())
     logger.info('The first `gym.make(MineRL*)` may take several minutes. Be patient!')
+
 
     os.environ['MALMO_MINECRAFT_OUTPUT_LOGDIR'] = args.outdir
 
@@ -194,10 +197,13 @@ def _main(args):
     # eval_env = gym.make(args.env)  # Can't create multiple MineRL envs
     # eval_env = wrap_env(eval_env, test=True)
     eval_env = wrap_env(core_env, test=True)
+    logger.critical("Built env {} (and eval_env)".format(env))
+
 
     # Q function
     n_actions = env.action_space.n
     q_func = parse_arch(args.arch, n_actions, n_input_channels=env.observation_space.shape[0])
+    logger.critical("Built Q {}".format(q_func))
 
     # explorer
     if args.noisy_net_sigma is not None:
@@ -207,6 +213,8 @@ def _main(args):
     else:
         explorer = chainerrl.explorers.LinearDecayEpsilonGreedy(
             1.0, args.final_epsilon, args.final_exploration_frames, env.action_space.sample)
+    logger.critical("Built explorer {}".format(explorer))
+
 
     # Draw the computational graph and save it in the output directory.
     sample_obs = env.observation_space.sample()

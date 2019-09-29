@@ -194,8 +194,8 @@ def _main(args):
     core_env = gym.make(args.env)
     env = wrap_env(args, train_seed, test_seed, core_env, test=False)
     # eval_env = gym.make(args.env)  # Can't create multiple MineRL envs
-    # eval_env = wrap_env(eval_env, test=True)
-    eval_env = wrap_env(core_env, test=True)
+    # eval_env = wrap_env(core_env, test=True)
+    eval_env = wrap_env(args, train_seed, test_seed, core_env, test=True)
     logger.critical("Built env {} (and eval_env)".format(env))
 
 

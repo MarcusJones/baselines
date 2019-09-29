@@ -133,11 +133,55 @@ def main():
         raise
 
 
+def wrap_env(env, test):
+    # wrap env: time limit...
+    if isinstance(env, gym.wrappers.TimeLimit):
+        logger.info('Detected `gym.wrappers.TimeLimit`! Unwrap it and re-wrap our own time limit.')
+        env = env.env
+        max_episode_steps = env.spec.max_episode_steps
+        env = ContinuingTimeLimit(env, max_episode_steps=max_episode_steps)
+
+    # wrap env: observation...
+    # NOTE: wrapping order matters!
+
+    if test and args.monitor:
+        env = ContinuingTimeLimitMonitor(
+            env, os.path.join(args.outdir, env.spec.id, 'monitor'),
+            mode='evaluation' if test else 'training', video_callable=lambda episode_id: True)
+    if args.frame_skip is not None:
+        env = FrameSkip(env, skip=args.frame_skip)
+    if args.gray_scale:
+        env = GrayScaleWrapper(env, dict_space_key='pov')
+    if args.env.startswith('MineRLNavigate'):
+        env = PoVWithCompassAngleWrapper(env)
+    else:
+        env = ObtainPoVWrapper(env)
+    env = MoveAxisWrapper(env, source=-1, destination=0)  # convert hwc -> chw as Chainer requires.
+    env = ScaledFloatFrame(env)
+    if args.frame_stack is not None and args.frame_stack > 0:
+        env = FrameStack(env, args.frame_stack, channel_order='chw')
+
+    # wrap env: action...
+    if not args.disable_action_prior:
+        env = SerialDiscreteActionWrapper(
+            env,
+            always_keys=args.always_keys, reverse_keys=args.reverse_keys, exclude_keys=args.exclude_keys, exclude_noop=args.exclude_noop)
+    else:
+        env = CombineActionWrapper(env)
+        env = SerialDiscreteCombineActionWrapper(env)
+
+    if test and args.noisy_net_sigma is None:
+        env = RandomizeAction(env, args.eval_epsilon)
+
+    env_seed = test_seed if test else train_seed
+    # env.seed(int(env_seed))  # TODO: not supported yet
+    return env
+
+
 def _main(args):
     # TODO:
     logger.critical("Start".format())
     logger.info('The first `gym.make(MineRL*)` may take several minutes. Be patient!')
-
 
     os.environ['MALMO_MINECRAFT_OUTPUT_LOGDIR'] = args.outdir
 
@@ -147,50 +191,6 @@ def _main(args):
     # Set different random seeds for train and test envs.
     train_seed = args.seed  # noqa: never used in this script
     test_seed = 2 ** 31 - 1 - args.seed
-
-    def wrap_env(env, test):
-        # wrap env: time limit...
-        if isinstance(env, gym.wrappers.TimeLimit):
-            logger.info('Detected `gym.wrappers.TimeLimit`! Unwrap it and re-wrap our own time limit.')
-            env = env.env
-            max_episode_steps = env.spec.max_episode_steps
-            env = ContinuingTimeLimit(env, max_episode_steps=max_episode_steps)
-
-        # wrap env: observation...
-        # NOTE: wrapping order matters!
-
-        if test and args.monitor:
-            env = ContinuingTimeLimitMonitor(
-                env, os.path.join(args.outdir, env.spec.id, 'monitor'),
-                mode='evaluation' if test else 'training', video_callable=lambda episode_id: True)
-        if args.frame_skip is not None:
-            env = FrameSkip(env, skip=args.frame_skip)
-        if args.gray_scale:
-            env = GrayScaleWrapper(env, dict_space_key='pov')
-        if args.env.startswith('MineRLNavigate'):
-            env = PoVWithCompassAngleWrapper(env)
-        else:
-            env = ObtainPoVWrapper(env)
-        env = MoveAxisWrapper(env, source=-1, destination=0)  # convert hwc -> chw as Chainer requires.
-        env = ScaledFloatFrame(env)
-        if args.frame_stack is not None and args.frame_stack > 0:
-            env = FrameStack(env, args.frame_stack, channel_order='chw')
-
-        # wrap env: action...
-        if not args.disable_action_prior:
-            env = SerialDiscreteActionWrapper(
-                env,
-                always_keys=args.always_keys, reverse_keys=args.reverse_keys, exclude_keys=args.exclude_keys, exclude_noop=args.exclude_noop)
-        else:
-            env = CombineActionWrapper(env)
-            env = SerialDiscreteCombineActionWrapper(env)
-
-        if test and args.noisy_net_sigma is None:
-            env = RandomizeAction(env, args.eval_epsilon)
-
-        env_seed = test_seed if test else train_seed
-        # env.seed(int(env_seed))  # TODO: not supported yet
-        return env
 
     core_env = gym.make(args.env)
     env = wrap_env(core_env, test=False)

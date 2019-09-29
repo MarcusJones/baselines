@@ -179,7 +179,6 @@ def wrap_env(args, train_seed, test_seed, env, test):
 
 
 def _main(args):
-    # TODO:
     logger.critical("Start".format())
     logger.info('The first `gym.make(MineRL*)` may take several minutes. Be patient!')
 

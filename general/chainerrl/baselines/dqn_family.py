@@ -232,15 +232,15 @@ def _main(args):
     # = 1440 episodes if we count an episode as 6000 frames,
     # = 1080 episodes if we count an episode as 8000 frames.
     maximum_frames = 8640000
-    logger.critical("Max frames:".format(maximum_frames))
+    logger.critical("Max frames: {}".format(maximum_frames))
     if args.frame_skip is None:
         steps = maximum_frames
         eval_interval = 6000 * 100  # (approx.) every 100 episode (counts "1 episode = 6000 steps")
     else:
         steps = maximum_frames // args.frame_skip
         eval_interval = 6000 * 100 // args.frame_skip  # (approx.) every 100 episode (counts "1 episode = 6000 steps")
-    logger.critical("steps:".format(steps))
-    logger.critical("eval_interval:".format(eval_interval))
+    logger.critical("steps: {}".format(steps))
+    logger.critical("eval_interval: {}".format(eval_interval))
 
     # Select a replay buffer to use
     if args.prioritized:
